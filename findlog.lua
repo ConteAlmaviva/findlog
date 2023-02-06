@@ -87,12 +87,6 @@ ashita.register_event('command', function(command, ntype)
     
     local path;
     
-    if(args[1] == '/findlast' or args[1] == '/flast') then
-        path = folderpath .. name .. "_" .. string.format('%.4u.%.2u.%.2u.log', d.year, d.month, d.day) .. "\"";
-    else
-        path = folderpath .. name .. "_" .. string.format('%.4u.%.2u.%.2u.log', d.year, d.month, d.day) .. "\" \"" .. folderpath .. name .. "_" .. yesterday_datestamp;
-    end
-    
     for i=3,#args do 
         searchstring = searchstring .. " " .. args[i];
     end
@@ -111,13 +105,7 @@ ashita.register_event('command', function(command, ntype)
         local handle = io.popen(command);
         local result = handle:read("*a");
         result = result:gsub(folderpath, "");
-        if(args[1] == '/findlast' or args[1] == '/flast') then
-            for str in result:gmatch("\n+") do
-                print(str)
-            end
-        else
-            print(result);
-        end
+        print(result);
     else
         command1 = "findstr /IRC:\"obtains a tukuku\" \"" .. path .. "\" | find /c /v \"GarbageStringNotInThisSearchforNegativeMatch\"";
         command2 = "findstr /IRC:\"obtains a one byne\" \"" .. path .. "\" | find /c /v \"GarbageStringNotInThisSearchforNegativeMatch\"";
