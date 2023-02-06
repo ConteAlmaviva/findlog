@@ -61,7 +61,7 @@ end
 ashita.register_event('command', function(command, ntype)
     -- Ensure we should handle this command..
     local args = command:args();
-    if (args[1] ~= '/findlog' and args[1] ~= '/fl' and args[1] ~= '/flcount' and args[1] ~= '/dynacount' and args[1] ~= '/dynalist' and args[1] ~= '/dynatest' and args[1] ~= '/findlast' and args[1] ~= '/flast') then
+    if (args[1] ~= '/findlog' and args[1] ~= '/fl' and args[1] ~= '/flcount' and args[1] ~= '/dynacount' and args[1] ~= '/dynalist') then
         return false;
     end
     
