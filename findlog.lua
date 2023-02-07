@@ -85,7 +85,7 @@ ashita.register_event('command', function(command, ntype)
     
     folderpath = string.format('%s%s\\', AshitaCore:GetAshitaInstallPath(), 'chatlogs')
     
-    local path;
+    local path = string.format('%s%s\\', AshitaCore:GetAshitaInstallPath(), 'chatlogs') .. name .. "_" .. string.format('%.4u.%.2u.%.2u.log', d.year, d.month, d.day);
     
     for i=3,#args do 
         searchstring = searchstring .. " " .. args[i];
