@@ -157,8 +157,8 @@ ashita.register_event('load', function()
     -- Load existing drops if any are present (e.g. your client crashed mid-Dynamis)
     local d = os.date('*t');
     local filename = string.format('%.4u.%.2u.%.2u-dynadrops.txt', d.year, d.month, d.day)
-    if (ashita.file.file_exists(_addon.path .. '/.drops/' .. filename)) then
-        ashita.settings.load_merged(_addon.path .. '/.drops/' .. filename, dynadrops);
+    if (ashita.file.file_exists(_addon.path .. '/drops/' .. filename)) then
+        ashita.settings.load_merged(_addon.path .. '/drops/' .. filename, dynadrops);
     end
 end);
 
@@ -182,7 +182,7 @@ ashita.register_event('incoming_text', function(mode, message)
         else
             dynadrops[tostring(name)] = dynadrops[tostring(name)] + 1;
         end
-        ashita.settings.save(_addon.path .. '/.drops/' .. filename, dynadrops);
+        ashita.settings.save(_addon.path .. '/drops/' .. filename, dynadrops);
     end
     
     if message_clean:contains("You find a Lungo-Nango") or message_clean:contains("You find a one hundred byne bill") or message_clean:contains("You find a Montiont") then
@@ -199,7 +199,7 @@ ashita.register_event('incoming_text', function(mode, message)
         else
             dynadrops[tostring(name)] = dynadrops[tostring(name)] + 100;
         end
-        ashita.settings.save(_addon.path .. '/.drops/' .. filename, dynadrops);
+        ashita.settings.save(_addon.path .. '/drops/' .. filename, dynadrops);
     end
     return false;
 end);
