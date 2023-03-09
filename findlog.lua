@@ -153,32 +153,53 @@ ashita.register_event('command', function(command, ntype)
     return false;
 end);
 
+ashita.register_event('load', function()
+    -- Load existing drops if any are present (e.g. your client crashed mid-Dynamis)
+    local d = os.date('*t');
+    local filename = string.format('%.4u.%.2u.%.2u-dynadrops.txt', d.year, d.month, d.day)
+    if (ashita.file.file_exists(_addon.path .. '/drops/' .. filename)) then
+        ashita.settings.load_merged(_addon.path .. '/drops/' .. filename, dynadrops);
+    end
+end);
+
 ashita.register_event('incoming_text', function(mode, message)
     if (string.len(message) == 0) then
         return false;
     end
     
+    
+    local d = os.date('*t');
+    local filename = string.format('%.4u.%.2u.%.2u-dynadrops.txt', d.year, d.month, d.day)
+        
     message_clean = clean_str(message)
     
     if message_clean:contains("obtains an Ordelle bronze") or message_clean:contains("obtains a one byne") or message_clean:contains("obtains a Tukuku") then
         local words = {}
         words[1], words[2] = message_clean:match("(%w+)(.+)")
-        name = words[1];
+        local name = words[1];
         if(dynadrops[tostring(name)] == nil) then
             dynadrops[tostring(name)] = 1;
         else
             dynadrops[tostring(name)] = dynadrops[tostring(name)] + 1;
         end
+        ashita.settings.save(_addon.path .. '/drops/' .. filename, dynadrops);
     end
     
     if message_clean:contains("You find a Lungo-Nango") or message_clean:contains("You find a one hundred byne bill") or message_clean:contains("You find a Montiont") then
         local fullpath = string.format('%s\\sounds\\mlg-airhorn.wav', _addon.path);
         ashita.misc.play_sound(fullpath);
+    end
+    
+    if message_clean:contains("obtains a Lungo-Nango") or message_clean:contains("obtains a one hundred byne bill") or message_clean:contains("obtains a Montiont") then
+        local words = {}
+        words[1], words[2] = message_clean:match("(%w+)(.+)")
+        local name = words[1];
         if(dynadrops[tostring(name)] == nil) then
             dynadrops[tostring(name)] = 100;
         else
             dynadrops[tostring(name)] = dynadrops[tostring(name)] + 100;
         end
+        ashita.settings.save(_addon.path .. '/drops/' .. filename, dynadrops);
     end
     return false;
 end);
